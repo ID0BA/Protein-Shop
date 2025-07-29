@@ -3,7 +3,7 @@ name: Semgrep scan
 on:
   pull_request:
     branches:
-      - [main]
+      - main
 
 #prevent race conditions/concurrency  
 concurrency:
