@@ -18,6 +18,13 @@ textblob_data/
 secrets.*
 credentials.*
 
+#terraform
+.tfstate
+.tfstate.*
+.tfvars
+.terraform.lock.hcl
+*.tfvars.json
+
 #logs
 *.log
 *.tmp
