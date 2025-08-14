@@ -1,4 +1,4 @@
 #Fake dependacies to test Semgrep push
-flask==0.12.0             # 🚨 CVE-2018-1000656 among others
+flask==2.2.5             # 🚨 CVE-2018-1000656 among others
 requests==2.9.1           # 🚨 Old version, missing security patches
 PyJWT==1.4.0              # 🚨 Insecure token verification in old versions
