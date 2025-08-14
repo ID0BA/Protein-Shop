@@ -2,7 +2,7 @@ name: Semgrep Security Scan
 
 on:
   pull_request:
-    branches: main
+    branches: ["main"]
 
 #prevent race conditions/concurrency  
 concurrency:
@@ -13,6 +13,10 @@ jobs:
   semgrep:
     name: Security Analysis
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
     
     steps:
       - name: Checkout code
@@ -22,7 +26,9 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: .semgrep-rules.yml
-          generateSarif: "1"
+          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
+        env:
+          SEMGREP_SARIF: 1
 
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
