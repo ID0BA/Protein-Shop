@@ -1,0 +1,58 @@
+rules:
+  - id: hardcoded-secret
+    pattern: |
+      $VAR = "<secret>"
+    message: Hardcoded secret/API key detected
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+
+  - id: suspicious-api-key
+    pattern: |
+      'sk_test_' in $VAL or 'AKIA' in $VAL or 'ghp_' in $VAL
+    message: Possible hardcoded API key/token
+    severity: ERROR
+    languages: [python]
+
+  - id: aws-access-key
+    pattern: |
+      AKIA[0-9A-Z]{16}
+    message: AWS Access Key detected
+    severity: ERROR
+    languages: [python, yaml, terraform]
+
+  - id: weak-md5
+    pattern: hashlib.md5(...)
+    message: Avoid using MD5 — it's cryptographically broken
+    severity: ERROR
+    languages: [python]
+
+  - id: weak-random
+    pattern: random.random()
+    message: Use `secrets` or `SystemRandom` for security-sensitive randomness
+    severity: WARNING
+    languages: [python]
+
+  - id: dangerous-subprocess
+    pattern: subprocess.Popen(...)
+    message: Possible command injection — validate inputs!
+    severity: WARNING
+    languages: [python]
+
+  - id: terraform-sensitive-output
+    pattern: |
+      output "$NAME" {
+        ...
+        value = $VAL
+        ...
+      }
+    message: Terraform output may contain sensitive data - consider using 'sensitive = true'
+    severity: WARNING
+    languages: [terraform]
+
+  - id: bare-except
+    pattern: "except:"
+    message: Bare `except:` catches all exceptions — be explicit
+    severity: WARNING
+    languages: [python]
